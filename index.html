@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Eternals</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { max-width: 600px; margin: 20px auto; }
+        h1 { font-size: 22px; }
+        ul { list-style-type: disc; padding-left: 20px; }
+        li { margin: 5px 0; }
+        .search-container { margin-top: 20px; }
+        .result-container { margin-top: 15px; }
+        .character-image { max-width: 200px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>The Eternals</h1>
+        <ul class="character-list"></ul>
+
+        <div class="search-container">
+            <h3>What attribute skill are you looking for?</h3>
+            <input type="text" class="skill-input" placeholder="Enter a skill">
+            <button class="search-button">Search</button>
+        </div>
+
+        <div class="result-container"></div>
+    </div>
+
+    <script>
+        const eternals = [
+            { name: "Ikaris", skills: ["Flight", "Laser Beams", "Super Strength"], image: "images/ikaris.jpeg" },
+            { name: "Sersi", skills: ["Matter Manipulation", "Empathy", "Super Strength"], image: "images/sersi.jpeg" },
+            { name: "Thena", skills: ["Combat", "Weapons", "Sword"], image: "images/thena.jpeg" },
+            { name: "Kingo", skills: ["Energy Projection", "Agility", "Sword"], image: "images/kingo.jpeg" },
+            { name: "Makkari", skills: ["Super Speed", "Combat", "Durability"], image: "images/makkari.jpeg" }
+        ];
+
+        function displayCharacters() {
+            const list = document.querySelector(".character-list");
+            eternals.forEach(eternal => {
+                const li = document.createElement("li");
+                li.textContent = eternal.name;
+                list.appendChild(li);
+            });
+        }
+
+        function findCharacter() {
+            const skillInput = document.querySelector(".skill-input").value.trim().toLowerCase();
+            const resultContainer = document.querySelector(".result-container");
+            resultContainer.innerHTML = "";
+
+            let selectedEternals = [];
+            eternals.forEach(eternal => {
+                if (eternal.skills.some(skill => skill.toLowerCase() === skillInput)) {
+                    selectedEternals.push(eternal);
+                }
+            });
+
+            if (selectedEternals.length > 0) {
+                selectedEternals.forEach(eternal => {
+                    const div = document.createElement("div");
+                    div.innerHTML = `<p>${eternal.name} is skilled in ${skillInput}.</p><img src="${eternal.image}" alt="${eternal.name}" class="character-image" style="display:block;">`;
+                    resultContainer.appendChild(div);
+                });
+            } else {
+                resultContainer.innerHTML = "<p>No character found with that skill.</p>";
+            }
+        }
+
+        document.querySelector(".search-button").addEventListener("click", findCharacter);
+
+        displayCharacters();
+    </script>
+</body>
+</html>
